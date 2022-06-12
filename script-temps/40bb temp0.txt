@@ -1189,8 +1189,10 @@ add_line 399 997 997 997 997 1766 3790
 add_line 399 997 997 997 997 3790
 add_line 399 997 997 997 997 997 1766 3790
 add_line 399 997 997 997 997 997 3790
+echo "building tree"
 build_tree 
 skip_if_done "Saves\2022-06-05_19-27-39_template0simpler/2c2h2d.cfr" next
+echo "go 6000 seconds"
 go 6000 seconds
 wait_for_solver 
 dump_tree "Saves\2022-06-05_19-27-39_template0simpler/2c2h2d.cfr" no_rivers
