@@ -10,8 +10,6 @@ import datetime
 
 
 pio_path = "C:\\PioSOLVER2edge\\PioSOLVER2-edge.exe"
-# script_path = os.listdir('C:\\Users\\Teemu-amd\\Desktop\\PYTHON SCRIPTIT\\pio-script-builder-v2-git\\pio-cl-script-runner\\script-temps\\40bb temp0.txt')
-temp_script_path = '"C:\\Users\\Teemu-amd\\Desktop\\PYTHON SCRIPTIT\\pio-script-builder-v2-git\\pio-cl-script-runner\\script-temps\\40bb temp0.txt"'
 positionList = ["UTG8","UTG7","LJ","HJ","CO","BTN","SB","BB"]
 
 
@@ -23,7 +21,6 @@ def get_script_range(pio_range):
     ## inits
     pio_hand_order = get_pio_hand_order()
     script_range_arr = [0]*len(pio_hand_order)
-    #print(len(pio_hand_order), len(script_range_arr))
     pio_range_arr = pio_range.split(",")
     
     pio_combos_weights_arr = []
@@ -41,12 +38,10 @@ def get_script_range(pio_range):
 
         ## if suited
         if (exact_combo[1] == exact_combo[3]):
-            print("suited combo", exact_combo)
             #for each pio combo-weight
             for pio_combo_weight in pio_combos_weights_arr:
                 pio_combo = pio_combo_weight.split(":")[0]
                 if (str(pio_combo[:2]) == exact_combo[0]+exact_combo[2] and pio_combo[2] == "s"):
-                    print(pio_combo[:2], exact_combo[0]+exact_combo[2], pio_combo_weight.split(":")[1])
                     script_range_arr[i] = pio_combo_weight.split(":")[1]
                 
         ## if offsuit (incl pairs)
@@ -56,12 +51,10 @@ def get_script_range(pio_range):
                 ## len == 2 eli pari (ei s eikä o)
                 if(len(pio_combo) == 2):
                     if (str(pio_combo[:2]) == exact_combo[0]+exact_combo[2]):
-                        #print("added combo + weight (offsuit)", pio_combo[:2], pio_combo_weight.split(":")[1])
                         script_range_arr[i] = pio_combo_weight.split(":")[1]
                 if (len(pio_combo) == 3):
                     if (pio_combo[2] == 'o'):
                         if (str(pio_combo[:2]) == exact_combo[0]+exact_combo[2]):
-                            #print("added combo + weight (offsuit)", pio_combo[:2], pio_combo_weight.split(":")[1])
                             script_range_arr[i] = pio_combo_weight.split(":")[1]
 
 
@@ -78,10 +71,10 @@ def get_script_range(pio_range):
     return "drep"
 
 
-def get_add_lines(eff_stack):
+def get_add_lines(eff_stack, flop_betsizes):
 
     add_lines_str = ""
-    script_path = "C:\\Users\\Teemu-amd\\Desktop\\PYTHON SCRIPTIT\\pio-script-builder-v2-git\\pio-cl-script-runner\\script-temps\\60bb LJ BTN.txt" 
+    script_path = "C:\\Users\\Teemu-amd\\Desktop\\PYTHON SCRIPTIT\\pio-script-builder-v2-git\\pio-cl-script-runner\\material\\script-temps\\" + flop_betsizes + ".txt"
 
     with open(script_path, "r") as f:
         for line in f:
@@ -95,7 +88,7 @@ def get_add_lines(eff_stack):
                 for node in lines_arr:
                     if (int(node) < eff_stack):
                         temp_arr.append(node)
-                temp_arr.append(eff_stack)
+                temp_arr.append(int(eff_stack))
 
                 add_lines_str += "add_line " + ' '.join(str(i) for i in temp_arr) + "\n"
                 #add_lines_str += line
@@ -105,7 +98,7 @@ def get_add_lines(eff_stack):
 
 
 
-def main(stack, r_pos, cc_pos, board):
+def main(stack, r_pos, cc_pos, board, flop_betsizes):
 
 
     #init script string
@@ -145,13 +138,11 @@ def main(stack, r_pos, cc_pos, board):
 
     ## load load script
     # load_script_status = connection.command(line=f"load_script_silent {temp_script_path}")
-    # print(load_script_status)
 
 
     # set_range [OOP/IP] lines
     [r_pio_range, cc_pio_range] = get_pio_ranges(stack,r_pos, cc_pos, board)
 
-    # print(r_pio_range, "\n\n\n\n", cc_pio_range)
 
 
     r_script_range_arr = get_script_range(r_pio_range)
@@ -176,7 +167,7 @@ def main(stack, r_pos, cc_pos, board):
 
 
     # add_lines 
-    script_str += get_add_lines(eff_stack)
+    script_str += get_add_lines(eff_stack, str(flop_betsizes))
     # build_tree 
     script_str += "build_tree\n"
     script_str += "estimate_tree\n"
@@ -219,7 +210,6 @@ def main(stack, r_pos, cc_pos, board):
 
     # new_script_path_fixed = '"C:\\Users\\Teemu-amd\\Desktop\\PYTHON SCRIPTIT\\pio-script-builder-v2-git\\pio-cl-script-runner\\scripts-new\\"' + filename[0:-4] + ".txt"
     # load_script_status = connection.command(line=f"load_script_silent {new_script_path_fixed}")
-    # print(load_script_status)
 
 
 
@@ -235,5 +225,6 @@ if __name__ == "__main__":
     board = "ThJc3d"
 
     [stack, r_pos, cc_pos, board] = input("stack r_pos cc_pos board\n").split(" ")
+    flop_betsizes = input("betsikoot: [ip-30, ip-30-70, 50, 30-70]\n")
 
-    main(int(stack), r_pos, cc_pos, board)
+    main(int(stack), r_pos, cc_pos, board, flop_betsizes)

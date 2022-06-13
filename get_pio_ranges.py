@@ -6,6 +6,31 @@ import os
 
 
 
+def getRoundedStack(stackDepth):
+    stacks_arr = [15,20,30,40,60,100]
+
+    diff_arr = []
+
+    for stack in stacks_arr:
+        diff_arr.append(abs(stack-stackDepth))
+
+
+    min_idx = diff_arr.index(min(diff_arr))
+
+    return stacks_arr[min_idx]
+
+
+
+
+
+
+
+
+
+
+
+
+
 def pathToPioRange(filePath, fname):
 
     with open(filePath + fname + ".rng", 'r') as file:
@@ -38,6 +63,9 @@ positionList = ["UTG8","UTG7","LJ","HJ","CO","BTN","SB","BB"]
 
 
 def get_pio_ranges(stackDepth, rfiPos, ccPos, board):
+
+    stackDepth = getRoundedStack(stackDepth)
+
     # temp inputs
     ranges_path = "C:\\Users\\Teemu-amd\\Desktop\\PYTHON SCRIPTIT\\pio-script-builder-v2-git\\pio-cl-script-runner\\MTTranges\\"
     rngFilepath = ranges_path + str(stackDepth) + "bb/*.rng"
@@ -50,6 +78,9 @@ def get_pio_ranges(stackDepth, rfiPos, ccPos, board):
 
     # etsitään tiedosto. tarkkoja reissukoot pitää ignoraa. eli otetana lista kaikista tiedostoista /30bb kansiosta
     # ja siitä otetaan tarkka fn
+
+
+
 
 
 
