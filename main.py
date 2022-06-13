@@ -8,6 +8,10 @@ import subprocess
 import datetime
 
 
+import PySimpleGUI as sg
+
+
+
 
 pio_path = "C:\\PioSOLVER2edge\\PioSOLVER2-edge.exe"
 positionList = ["UTG8","UTG7","LJ","HJ","CO","BTN","SB","BB"]
@@ -98,7 +102,7 @@ def get_add_lines(eff_stack, flop_betsizes):
 
 
 
-def main(stack, r_pos, cc_pos, board, flop_betsizes):
+def main(stack = 15, r_pos = "LJ", cc_pos = "BTN", board = "2c2d2", flop_betsizes = "50"):
 
 
     #init script string
@@ -215,16 +219,17 @@ def main(stack, r_pos, cc_pos, board, flop_betsizes):
 
 
 
-if __name__ == "__main__":
+#if __name__ == "__main__":
 
 
 
-    stack = "15"
-    r_pos = "UTG7"
-    cc_pos = "BB"
-    board = "ThJc3d"
+    # stack = "15"
+    # r_pos = "UTG7"
+    # cc_pos = "BB"
+    # board = "ThJc3d"
 
-    [stack, r_pos, cc_pos, board] = input("stack r_pos cc_pos board\n").split(" ")
-    flop_betsizes = input("betsikoot: [ip-30, ip-30-70, 50, 30-70]\n")
+    # [stack, r_pos, cc_pos, board] = input("stack r_pos cc_pos board\n").split(" ")
+    # flop_betsizes = input("betsikoot: [ip-30, ip-30-70, 50, 30-70]\n")
 
-    main(int(stack), r_pos, cc_pos, board, flop_betsizes)
+    #main(int(stack), r_pos, cc_pos, board, flop_betsizes)
+
