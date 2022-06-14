@@ -23,8 +23,6 @@ def main1():
             [sg.InputText(default_text="2c2h2d", key='flop')],
             [sg.Text('flop betting scheme')],
             [sg.Combo(flop_betsizes, key = 'flop_betsizes')],
-            [sg.Multiline(size=(110, 30), echo_stdout_stderr=True, reroute_stdout=True, autoscroll=True, background_color='black', text_color='white', key='-MLINE-')],
-            [sg.T('Promt> '), sg.Input(key='-IN-', focus=True, do_not_clear=False)],
             [sg.Button('Run', bind_return_key=True), sg.Button('Exit')]
 
         ]
@@ -35,10 +33,9 @@ def main1():
         if event in (sg.WIN_CLOSED, 'Exit'):
             break
         elif event == 'Run':
-            sp = sg.execute_command_subprocess(values['-IN-'], pipe_output=True, wait=False)
-            results = sg.execute_get_results(sp, timeout=1)
-            print(results[0])
+            window.close()
             main(int(values['stack']), values['rfi_pos'], values['cc_pos'], values['flop'], values['flop_betsizes'])
+            break
 
     window.close()
 

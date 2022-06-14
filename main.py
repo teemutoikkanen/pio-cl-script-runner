@@ -219,7 +219,7 @@ def main(stack = 15, r_pos = "LJ", cc_pos = "BTN", board = "2c2d2", flop_betsize
 
 
 
-#if __name__ == "__main__":
+if __name__ == "__main__":
 
 
 
@@ -228,8 +228,8 @@ def main(stack = 15, r_pos = "LJ", cc_pos = "BTN", board = "2c2d2", flop_betsize
     # cc_pos = "BB"
     # board = "ThJc3d"
 
-    # [stack, r_pos, cc_pos, board] = input("stack r_pos cc_pos board\n").split(" ")
-    # flop_betsizes = input("betsikoot: [ip-30, ip-30-70, 50, 30-70]\n")
+    [stack, r_pos, cc_pos, board] = input("stack r_pos cc_pos board\n").split(" ")
+    flop_betsizes = input("betsikoot: [ip-30, ip-30-70, 50, 30-70]\n")
 
-    #main(int(stack), r_pos, cc_pos, board, flop_betsizes)
+    main(int(stack), r_pos, cc_pos, board, flop_betsizes)
 
