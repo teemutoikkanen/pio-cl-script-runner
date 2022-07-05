@@ -1,8 +1,11 @@
 
 
 
+# https://gyazo.com/4c483084cbb06ffdc6f8f3229cd59dc7 charts layout
 
 combos =["AA","KK","QQ","JJ","TT","99","88","77","66","55","44","33","22","AK","AQ","AJ","AT","A9","A8","A7","A6","A5","A4","A3","A2","KQ","KJ","KT","K9","K8","K7","K6","K5","K4","K3","K2","QJ","QT","Q9","Q8","Q7","Q6","Q5","Q4","Q3","Q2","JT","J9","J8","J7","J6","J5","J4","J3","J2","T9","T8","T7","T6","T5","T4","T3","T2","98","97","96","95","94","93","92","87","86","85","84","83","82","76","75","74","73","72","65","64","63","62","54","53","52","43","42","32"]
+positions = ["bb,sb,btn,co,hj,lj,mp,ep"]
+vsPositions = ["BB,SB,BTN,CO,HJ,LJ,MP,EP"]
 
 
 fpath = "./material/bbz-data/mtt-40bb.txt"
@@ -27,24 +30,17 @@ with open(fpath) as f:
 		new_line = new_line.replace("<i hgp dcp='50.76'dfp='43.51'drp='5.72'dap='0.00'>", " ")
 		new_line = new_line.replace("<i hp>", " ")
 		new_line = new_line.replace("<i hp>", " ")
-		# print(new_line + "\n")
+
 
 		# line->list
 		line_arr = new_line.split(" ")
 		# tyhjat pois
 		line_arr = [i for i in line_arr if i]
 
-		
-
-
-
-		# temp print linet missä ei comboa
-
-		# if (line_arr[0][:2] not in combos):
-		# 	print(new_line + "\n")
 
 
 		combo_data = []
+		# label_data = []
 
 		## otetaan data ylös [76s, 0%, 0%, 0%, 100%] formaattiin 
 		for i in line_arr:
@@ -54,6 +50,19 @@ with open(fpath) as f:
 			
 			if (i[-1] == "%"):
 				combo_data.append(float(i[:-1]))
+
+
+			# # TODO labelit ylös
+
+
+			if ("data-tippy-content" in i):
+				print(line_arr, "\n")
+
+			# # get pos
+			# if ("pos>" in i):
+			# 	label_data.append(i[4:])
+
+
 
 
 
@@ -74,9 +83,16 @@ with open(fpath) as f:
 			print("alert alert" + combo_data)
 
 	final_data_arr = temp_arr
-	for i in final_data_arr:
-		print(i)
+	
 
+
+	### 68 kpl AA 40bb mtt setissä
+	# n=0
+	# for i in final_data_arr:
+	# 	if(i[4] == 'AA'):
+	# 		n+=1
+
+	# print(n)
 
 
 	# TODO: 
