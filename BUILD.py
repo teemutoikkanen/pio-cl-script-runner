@@ -23,25 +23,26 @@ def main1():
     layout = [
             [sg.Text('Stack')],
             [sg.Button(s, key=s, size=(2,1)) for s in stacks],
-            [sg.InputText(key='stack', size=(2,1))],
+            [sg.InputText(key='stack', size=(2,1), default_text = 20)],
             [sg.Text('RFI pos')],
             [sg.Button(s[1:], key=s, size=(4,1)) for s in rPosList],
-            [sg.InputText(key = 'rfi_pos', size=(5,1))],
+            [sg.InputText(key = 'rfi_pos', size=(5,1), default_text = "LJ")],
             [sg.Text('CC pos')],
             [sg.Button(s[1:], key=s, size=(4,1)) for s in cPosList],
-            [sg.InputText(key = 'cc_pos', size=(5,1))],
+            [sg.InputText(key = 'cc_pos', size=(5,1), default_text = "BB")],
             [sg.Text('Enter Flop')],
             [sg.InputText(default_text="2c2h2d", key='flop')],
             [sg.Text('Flop betsizes')],
-            [sg.Combo(flop_betsizes, key = 'flop_betsizes')],
-            [sg.Button('Run', bind_return_key=True), sg.Button('Exit')],
+            [sg.Button(s, key=s, size=(7,1)) for s in flop_betsizes],
+            [sg.InputText(key = 'flop_betsizes', default_text = "30-70")],
+            [sg.Button('Run', bind_return_key=True), sg.Button('Tree only')],
 
         ]
 
     window = sg.Window('Realtime Shell Command Output', layout)
     while True:  # Event Loop
         event, values = window.read()
-        if event in (sg.WIN_CLOSED, 'Exit'):
+        if event in (sg.WIN_CLOSED, "exit"):
             break
         elif event in stacks:
             window['stack'].update(event)
@@ -49,10 +50,17 @@ def main1():
             window['rfi_pos'].update(event[1:])
         elif event in cPosList:
             window['cc_pos'].update(event[1:])
+        elif event in flop_betsizes:
+            window['flop_betsizes'].update(event)
         elif event == 'Run':
             window.close()
             main(int(values['stack']), values['rfi_pos'], values['cc_pos'], values['flop'], values['flop_betsizes'])
             break
+        elif event == 'Tree only':
+            window.close()
+            main(int(values['stack']), values['rfi_pos'], values['cc_pos'], values['flop'], values['flop_betsizes'], 1)
+            break
+
 
     window.close()
 

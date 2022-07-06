@@ -87,7 +87,7 @@ def get_pio_ranges(stackDepth, rfiPos, ccPos, board):
     #### RFI rangen haku
     rfiPosNum = positionList.index(rfiPos)
 
-    #TODO 1.get tiedostonimilista 2. etsi sieltä str missä posNum:s alkaa 4:lla ja toka posNum alkaa 1? riittää SRP?
+    #1.get tiedostonimilista 2. etsi sieltä str missä posNum:s alkaa 4:lla ja toka posNum alkaa 1? riittää SRP?
 
     files = glob.glob(rngFilepath)
     rfiFname = ""

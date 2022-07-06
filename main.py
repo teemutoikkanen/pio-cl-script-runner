@@ -3,6 +3,7 @@ import os
 from SolverConnection.solver import Solver
 from get_pio_ranges import get_pio_ranges
 from get_pio_hand_order import get_pio_hand_order
+from shutil import copyfile
 
 import subprocess
 import datetime
@@ -102,7 +103,10 @@ def get_add_lines(eff_stack, flop_betsizes):
 
 
 
-def main(stack = 15, r_pos = "LJ", cc_pos = "BTN", board = "2c2d2", flop_betsizes = "50"):
+def main(stack = 15, r_pos = "LJ", cc_pos = "BTN", board = "2c2d2", flop_betsizes = "50", buildTreeOnly = 0):
+
+
+    path_root = "C:\\Users\\Teemu-amd\\Desktop\\PYTHON SCRIPTIT\\pio-script-builder-v2-git\\pio-cl-script-runner\\"
 
 
     #init script string
@@ -201,13 +205,45 @@ def main(stack = 15, r_pos = "LJ", cc_pos = "BTN", board = "2c2d2", flop_betsize
    
 
     ## CALL PIO
-    subprocess.call(["%s" % pio_path, new_script_path])
 
+    if (buildTreeOnly == 0):
+        subprocess.call(["%s" % pio_path, new_script_path])
 
+    else:
+        #TODO luodaan puu ja tallennetaan pio-kansioon
 
+        with open (path_root + "\\material\\tree-temp.txt") as file:
+            data = file.read()
 
+            pioScriptFileList = data.split("\n")
 
+            if (cc_pos == "SB" or r_pos == "BB"):
+                pioScriptFileList[1] = "#Range0#" + cc_pio_range
+                pioScriptFileList[2] = "#Range1#" + r_pio_range
 
+                pioScriptFileList[4] = "#Pot#" + str(pot)
+                pioScriptFileList[5] = "#EffectiveStacks#" + str(eff_stack)
+
+            else:
+                pioScriptFileList[1] = "#Range0#" + r_pio_range
+                pioScriptFileList[2] = "#Range1#" + cc_pio_range
+
+                pioScriptFileList[4] = "#Pot#" + str(pot)
+                pioScriptFileList[5] = "#EffectiveStacks#" + str(eff_stack)
+
+            pioScriptFileList[3] = "#Board#" + board   
+
+    dateTime = datetime.datetime.now().strftime("%Y-%m-%d %H%M") #strftime("%d-%m-%Y %H%M")       
+    tree_fname = dateTime + " Pio Tree File " + r_pos + " vs " + cc_pos + " " + str(stack) + "bb " + board + ".txt"
+    path_tree_files = path_root + "material\\pio-tree-files\\"
+
+    with open(path_tree_files + tree_fname, "w") as wfile:
+        for line in pioScriptFileList:
+            wfile.write("%s\n" % line)
+        
+
+    path_pio = "C:\\PioSOLVER2edge\\TreeBuilding\\PYTHON SCRIPT\\"
+    copyfile(path_tree_files+tree_fname,path_pio+tree_fname)
 
 
     #load script
